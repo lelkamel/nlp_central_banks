@@ -3,6 +3,10 @@ library(haven)
 library(tidyverse)
 library(writexl)
 
+######
+## Let's deal first with trust data
+######
+
 #US Fed
 confidence_Fed = read_excel("data/fed_confidence.xlsx") %>%
   arrange(Year)
@@ -68,3 +72,36 @@ cf_df <- ecb_confidence %>%
 names(cf_df)[2:4] <- c("ECB_trust", "BoE_trust", "Fed_trust")
 
 write_xlsx(cf_df, "data/bc_trust_data.xlsx")
+
+######
+## Now we deal with inflation data
+######
+
+ecb_inf <- read_excel("data/inflation_data/ECB_data.xlsx", range = "B15:C46") 
+
+UK_inf <- read_excel("data/inflation_data/UK_data.xlsx", sheet = "Annual") %>%
+  mutate(date = as.numeric(year(observation_date))) %>%
+  select(-observation_date)
+
+US_inf <- read_csv("data/inflation_data/US_data.csv") %>%
+  mutate(
+    inf = (CPIAUCSL - lag(CPIAUCSL))/CPIAUCSL*100
+  ) %>%
+  mutate(year = year(observation_date)) %>%
+  group_by(year) %>%
+  summarise(inf = mean(inf, na.rm = TRUE))
+
+names(UK_inf)[2] <- "year"
+names(ecb_inf)[1] <- "year"
+
+ecb_inf$year <- as.numeric(ecb_inf$year)
+
+#inf data
+
+inf_data <- US_inf %>%
+  inner_join(ecb_inf, by = "year") %>%
+  inner_join(UK_inf, by = "year")
+
+names(inf_data)[2:4] <- c("US_inf", "EA_inf", "UK_inf")
+
+write_xlsx(inf_data, "data/data_inf.xlsx")
