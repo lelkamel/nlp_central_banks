@@ -85,7 +85,7 @@ UK_inf <- read_excel("data/inflation_data/UK_data.xlsx", sheet = "Annual") %>%
 
 US_inf <- read_csv("data/inflation_data/US_data.csv") %>%
   mutate(
-    inf = (CPIAUCSL - lag(CPIAUCSL))/CPIAUCSL*100
+    inf = (CPIAUCSL/lag(CPIAUCSL, 12) - 1)*100
   ) %>%
   mutate(year = year(observation_date)) %>%
   group_by(year) %>%
