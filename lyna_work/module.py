@@ -10,22 +10,29 @@ import requests
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import nltk
-import torch
-import spacy
 
-from tqdm import tqdm
-from umap import UMAP
-from hdbscan import HDBSCAN
-from transformers import AutoTokenizer, AutoConfig
-from sentence_transformers import SentenceTransformer
-from bertopic import BERTopic
-from sklearn.feature_extraction.text import CountVectorizer
-from nltk.corpus import stopwords
+try:
+    import nltk       
+    import torch
+    import spacy
+    from tqdm import tqdm
+    from umap import UMAP
+    from hdbscan import HDBSCAN
+    from transformers import AutoTokenizer, AutoConfig
+    from sentence_transformers import SentenceTransformer
+    from bertopic import BERTopic
+    from sklearn.feature_extraction.text import CountVectorizer
+    from nltk.corpus import stopwords
+    import plotly.io as pio
+    nltk.download('stopwords', quiet=True)
+except ImportError as e:
+    print(f"Warning: {e} — some functions will not be available")
+
+
 import s3fs
-import plotly.io as pio
 
-nltk.download('stopwords', quiet=True)
+
+
 
 # ── Data cleaning ──────────────────────────────────────────
 def remove_references_section(t):
