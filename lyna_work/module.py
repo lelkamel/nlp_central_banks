@@ -227,14 +227,6 @@ def get_stopwords():
     return list(set(standard_stopwords + additional_stopwords))
 
 
-def get_vectorizer(ngram_range=(1, 2), min_df=3):
-    return CountVectorizer(
-        stop_words=get_stopwords(),
-        ngram_range=ngram_range,
-        min_df=min_df,
-        lowercase=True
-    )
-
 
 # ── Plotly setup ───────────────────────────────────────────
 def setup_plotly():
