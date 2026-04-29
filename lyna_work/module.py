@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 try:
-    import nltk       
+    import nltk
     import torch
     import spacy
     from tqdm import tqdm
@@ -32,11 +32,9 @@ except ImportError as e:
 import s3fs
 
 
-
-
 # ── Data cleaning ──────────────────────────────────────────
 def remove_references_section(t):
-          """
+    """
     Detects and removes academic reference sections (References, Bibliography,
     Data Appendix) from the end of a speech text.
 
@@ -63,7 +61,7 @@ def remove_references_section(t):
     str
         Cleaned text with the reference section removed, or the original text
         if no valid reference section was found.
-    """      
+    """
     t_normalized = re.sub(
         r'(All speeches are available online at\s*|BIS central bankers speeches\s*)?\b\d+\s*\d*\s*(References|Bibliography|Data Appendix)',
         r'\2',
@@ -86,7 +84,7 @@ def remove_references_section(t):
 
 
 def clean_text(row):
-       """
+    """
     Applies a full cleaning pipeline to a single speech, using institution-
     specific rules derived from a careful inspection of the corpus.
 
@@ -142,8 +140,7 @@ def clean_text(row):
 
     text = re.sub(r' {2,}', ' ', text)
     return text.strip()
-
-
+    
 # ── Chunking ───────────────────────────────────────────────
 def count_tokens_batch(sentences, tokenizer, batch_size=512):
     """tokenizer must be passed explicitly."""
