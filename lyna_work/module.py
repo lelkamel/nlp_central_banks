@@ -36,6 +36,34 @@ import s3fs
 
 # ── Data cleaning ──────────────────────────────────────────
 def remove_references_section(t):
+          """
+    Detects and removes academic reference sections (References, Bibliography,
+    Data Appendix) from the end of a speech text.
+
+    The function first normalizes common footer patterns that appear before the
+    section header (e.g. "All speeches are available online at 53 53 References"
+    or "BIS central bankers speeches 19 References"), stripping page numbers and
+    boilerplate text so that the header can be reliably detected.
+
+    It then searches for the section header, and removes everything from that
+    point onwards, but only if two conditions are met:
+      - The header appears in the last 25% of the document (to avoid cutting
+        mid-text mentions like "the references therein" or "as references show")
+      - The header is not preceded by an article or determiner such as "the",
+        "these", "those", "such" or "see" (which would indicate an in-text
+        reference rather than a section title)
+
+    Parameters
+    ----------
+    t : str
+        Raw speech text.
+
+    Returns
+    -------
+    str
+        Cleaned text with the reference section removed, or the original text
+        if no valid reference section was found.
+    """      
     t_normalized = re.sub(
         r'(All speeches are available online at\s*|BIS central bankers speeches\s*)?\b\d+\s*\d*\s*(References|Bibliography|Data Appendix)',
         r'\2',
@@ -58,6 +86,34 @@ def remove_references_section(t):
 
 
 def clean_text(row):
+       """
+    Applies a full cleaning pipeline to a single speech, using institution-
+    specific rules derived from a careful inspection of the corpus.
+
+    The following transformations are applied to all speeches:
+      - Inline footnote markers [1], [2], etc. are removed
+      - PDF page number artifacts (e.g. "1/2001 5") are deleted
+      - Academic reference sections are removed via remove_references_section()
+      - Markdown hyperlinks [text](url) are replaced by their display text only
+      - Encoding artifacts from imperfect PDF extraction (e.g. "Rf6ntgen") 
+        are deleted
+
+    Institution-specific rules:
+      - ECB : contact footers appended to all online publications are stripped
+      - Federal Reserve : missing apostrophes introduced by PDF-to-text 
+        conversion are restored (e.g. "Id" -> "I'd", "Whats" -> "What's")
+
+    Parameters
+    ----------
+    row : pd.Series
+        A row from the speeches DataFrame, containing at least 'text' 
+        and 'CentralBank' fields.
+
+    Returns
+    -------
+    str
+        Fully cleaned speech text.
+    """
     text = row['text']
     bank = row['CentralBank']
 
