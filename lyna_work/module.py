@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+from sklearn.metrics.pairwise import cosine_similarity
 try:
     import nltk
     import torch
@@ -298,3 +298,24 @@ def setup_plotly():
     import plotly.io._renderers
     pio.renderers.default = "notebook_connected"
     print(f"nbformat : {nbformat.__version__}")
+
+# -- Agregation of topics --------------------------------------
+def check_similarity(topic_pairs, topic_model):
+    topic_embeddings = topic_model.topic_embeddings_
+    topic_info = topic_model.get_topic_info()
+    
+    for pair in topic_pairs:
+        print(f"\n{'='*60}")
+        for t in pair:
+            name = topic_info[topic_info['Topic'] == t]['Name'].values[0]
+            print(f"  Topic {t} : {name}")
+        
+        emb_pair = np.array([topic_embeddings[t+1] for t in pair])
+        sim_matrix = cosine_similarity(emb_pair)
+        
+        # Print pairwise similarities
+        for i in range(len(pair)):
+            for j in range(i+1, len(pair)):
+                sim = sim_matrix[i, j]
+                emoji = "✅" if sim > 0.7 else "⚠️" if sim > 0.5 else "❌"
+                print(f"\n  {emoji} Topic {pair[i]} vs Topic {pair[j]} : {sim:.3f}")
