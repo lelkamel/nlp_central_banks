@@ -14,13 +14,7 @@
 
 ---
 
-<<<<<<< HEAD
 ## 📁 Repository Structure
-=======
-### 3. `sofiene_work/` : for the last section of the analysis
-- `prep_data_reg.R` - processes the inflation and public trust data
-- `complexity_drivers` - contains the analysis described in section 5 of the report
->>>>>>> 66474920b41f9a3a37b76fbffd4ba8bdb8cdd45c
 
 ```
 nlp_central_banks/
