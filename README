@@ -1,1 +1,20 @@
+This project aims at assessing the different layers of communication of central banks. Each part is seperated in a different folder
+
+1. In the folder lyna_work, you will find all the BERTopic analysis on classical speeches. [section 1 and appendix of the paper]
+This analysis was also conducted for the NLP class, which enabled me to learn about these techniques
+(hence you will find there a document detailing the methodology used and answering other questions, do not take it into account) : 
+What matters in this folder is : 
+ 1.a. the notebook preprocessing
+ 1.b. the notebook topic modelling, where you will find the figures of the modeling
+
+
+1bis.  In the notebook nlp on the main branch social_mediavsclassic, you will find the descriptive statistics that compare central bank communication and social media communication in the first
+ section of the report
+
+ 2.  A folder lisa_work where you will find the analysis with the word2vec embeddings
+ 2.a. a preprocessing notebook 
+ 2.b. the main notebook for the analysis called word2vec
+
+
+ 3. A folder sofiene_work ?
 
