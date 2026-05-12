@@ -2,20 +2,23 @@ library(readxl)
 library(tidyverse)
 library(fixest)
 
-trust_data <- read_excel("data/bc_trust_data.xlsx")
-inf_data <- read_excel("data/data_inf.xlsx")
-complexity_data <- read_csv("C:/Users/sofie/Desktop/ENSAE/3A/Projet EPD/df_with_depth.csv") %>%
+#Import data
+trust_data <- read_excel("data/bc_trust_data.xlsx") #change path if needed
+inf_data <- read_excel("data/data_inf.xlsx") #change path if needed
+complexity_data <- read_csv("data/df_with_depth.csv") %>%
   filter(CentralBank %in% c("Bank of England",
  "Board of Governors of the Federal Reserve",
  "European Central Bank")
   ) %>%
   select(Date, CentralBank, flesch_score)
 
+#Compute average complexity of speeches by institution and year
 complexity_data_clean <- complexity_data %>%
   mutate(year = year(Date)) %>%
   group_by(year, CentralBank) %>%
   summarise(avg_complexity = mean(flesch_score))
 
+#Aggregate inflation for US, UK, EU
 inf_data_long <- inf_data %>%
   pivot_longer(
     cols = c(US_inf, EA_inf, UK_inf),
