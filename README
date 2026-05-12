@@ -20,6 +20,8 @@ This project assesses the different layers of communication of central banks.
 - `word2vec.ipynb` — Main analysis
 
 ### 3. `sofiene_work/` : for the last section of the analysis
+- `prep_data_reg.R` - process the inflation and public trust data
+- `complexity_drivers` - contains the analysis described in section 5 of the report
 
 
 
