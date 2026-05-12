@@ -26,6 +26,7 @@ nlp_central_banks/
 ├── 📂 lisa_work/                  # Word2Vec embeddings analysis
 │   ├── preprocessing.ipynb        # Data cleaning and preparation
 │   └── word2vec.ipynb             # Main analysis
+    └── two_other_datasets.ipynb   #Comparaison with Bloomberg news and general audience news datasets    
 │
 ├── 📂 sofiene_work/               # Last section analysis
 │   ├── complexity_drivers.R
